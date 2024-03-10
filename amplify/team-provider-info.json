@@ -19,15 +19,16 @@
       "function": {
         "ontology358b51e7": {
           "deploymentBucketName": "amplify-ontology-dev-180650-deployment",
-          "s3Key": "amplify-builds/ontology358b51e7-766d624d4958474b4672-build.zip"
+          "s3Key": "amplify-builds/ontology358b51e7-79394131496856562b66-build.zip"
         },
         "ontology00b27d4f": {
           "deploymentBucketName": "amplify-ontology-dev-180650-deployment",
-          "s3Key": "amplify-builds/ontology00b27d4f-69734d7935317a6d4d45-build.zip"
+          "s3Key": "amplify-builds/ontology00b27d4f-697a44686f3845336e49-build.zip"
         }
       },
       "api": {
-        "ontologyapi": {}
+        "ontologyapi": {},
+        "ontology": {}
       }
     }
   }
