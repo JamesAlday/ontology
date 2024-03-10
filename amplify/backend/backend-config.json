@@ -1,4 +1,44 @@
 {
+  "api": {
+    "ontology": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    },
+    "ontologyapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ontology358b51e7"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ontology00b27d4f"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "ontology960414f4": {
       "customAuth": false,
@@ -25,6 +65,52 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "ontology00b27d4f": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ontology358b51e7": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_ontology00b27d4f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ontology00b27d4f"
+        }
+      ]
+    },
+    "AMPLIFY_function_ontology00b27d4f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ontology00b27d4f"
+        }
+      ]
+    },
+    "AMPLIFY_function_ontology358b51e7_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ontology358b51e7"
+        }
+      ]
+    },
+    "AMPLIFY_function_ontology358b51e7_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ontology358b51e7"
+        }
+      ]
     }
   }
 }

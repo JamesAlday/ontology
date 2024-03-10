@@ -9,11 +9,25 @@
       "UnauthRoleName": "amplify-ontology-dev-180650-unauthRole",
       "StackName": "amplify-ontology-dev-180650",
       "StackId": "arn:aws:cloudformation:us-east-1:236103247880:stack/amplify-ontology-dev-180650/8cf90560-dda0-11ee-830a-12bb131636dd",
-      "AmplifyAppId": "d1n0o7ccyfxnsf"
+      "AmplifyAppId": "d1n0o7ccyfxnsf",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-ontology-dev-180650-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "ontology960414f4": {}
+      },
+      "function": {
+        "ontology358b51e7": {
+          "deploymentBucketName": "amplify-ontology-dev-180650-deployment",
+          "s3Key": "amplify-builds/ontology358b51e7-766d624d4958474b4672-build.zip"
+        },
+        "ontology00b27d4f": {
+          "deploymentBucketName": "amplify-ontology-dev-180650-deployment",
+          "s3Key": "amplify-builds/ontology00b27d4f-69734d7935317a6d4d45-build.zip"
+        }
+      },
+      "api": {
+        "ontologyapi": {}
       }
     }
   }

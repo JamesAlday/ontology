@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Menu, MenuItem, MenuButton, Link } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router-dom";
 import { AiFillGithub } from "react-icons/ai";
@@ -6,6 +7,8 @@ import { baseConfig } from "../../config";
 
 const HeaderNav = () => {
   const navigate = useNavigate();
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  console.log(user);
   return (
     <>
       {baseConfig.projectLink ? (
@@ -34,7 +37,7 @@ const HeaderNav = () => {
       >
         <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
         <MenuItem>Settings</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={signOut}>Logout</MenuItem>
       </Menu>
     </>
   );

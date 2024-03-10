@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "paths": {
+    "/concept/{conceptId}": {
+      "name": "/concept/{conceptId}",
+      "lambdaFunction": "ontology358b51e7",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read"
+        ]
+      }
+    },
+    "/concept/admin": {
+      "name": "/concept/admin",
+      "lambdaFunction": "ontology00b27d4f",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}
