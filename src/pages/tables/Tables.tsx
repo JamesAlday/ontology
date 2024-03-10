@@ -19,7 +19,7 @@ const Tables = () => {
         padding="1rem"
         minHeight="80vh"
       >
-        <Heading color="#333"> Basic Table </Heading>
+        <Heading color="#333"> Concepts </Heading>
         <br></br>
         <ScrollView width="100%">
           <BasicTable />

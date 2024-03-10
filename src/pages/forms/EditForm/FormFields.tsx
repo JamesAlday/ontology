@@ -6,17 +6,13 @@ import {
   TextAreaField,
   SelectField,
 } from "@aws-amplify/ui-react";
-
-interface Fields {
-  title: string;
-  description: string;
-  category: string;
-}
+// import * as queries from '../../../graphql/queries';
+import { Concept } from "../../../API";
 
 interface FormFieldProps {
   formFieldChange: (name: string, value: string) => void;
   formFieldIsValid: (name: string, valid: boolean) => void;
-  values: Fields;
+  values: Concept | null | undefined;
 }
 
 const FormFields = (props: FormFieldProps) => {
@@ -36,17 +32,17 @@ const FormFields = (props: FormFieldProps) => {
     <>
       <Flex direction="column" width="100%">
         <TextField
-          value={values.title}
+          value={values?.name}
           onChange={(e) => {
             handleInputChange(e);
             validateTitle(e);
           }}
-          name="title"
+          name="name"
           hasError={titleHasError}
-          errorMessage="Please input a Title"
+          errorMessage="Please input a Name"
           label={
             <Text>
-              Title
+              Name
               <Text as="span" fontSize="0.8rem" color="red">
                 (required)
               </Text>
@@ -58,18 +54,18 @@ const FormFields = (props: FormFieldProps) => {
 
         <TextAreaField
           label="Description"
-          value={values.description}
+          value={values?.description}
           onChange={handleInputChange}
           name="description"
           rows={6}
         />
 
-        <SelectField label="Genre" onChange={handleInputChange} name="genre">
+        {/* <SelectField label="Genre" onChange={handleInputChange} name="genre">
           <option value="Latin">Latin</option>
           <option value="Rap">Rap</option>
           <option value="Blues">Blues</option>
           <option value="Metal">Metal</option>
-        </SelectField>
+        </SelectField> */}
       </Flex>
     </>
   );

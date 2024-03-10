@@ -9,24 +9,32 @@ import {
   TextAreaField,
 } from "@aws-amplify/ui-react";
 
-const initialValues = {
-  name: "",
-  email: "",
-  animal: "Dog",
-  message: "",
-  subscribe: false,
-};
+import { generateClient } from 'aws-amplify/api';
+import * as queries from '../../graphql/queries';
+import { Amplify } from 'aws-amplify';
+import config from '../../amplifyconfiguration.json';
+
+Amplify.configure(config);
+
+const client = generateClient();
+
+const oneConcept = await client.graphql({
+  query: queries.getConcept,
+  variables: { id: "802a799c-cdbd-4c8c-8f5e-d5e9dbd27e50" }
+});
+const item = oneConcept.data.getConcept;
+console.log(item);
 
 const BasicForm = () => {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(item);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    setValues({
-      ...values,
-      [name]: value,
-    });
+    console.log(e.target);
+    // setValues({
+    //   ...values,
+    //   [name]: value,
+    // });
   };
 
   const handleSubmit = (e) => {
@@ -38,7 +46,7 @@ const BasicForm = () => {
     <>
       <Flex as="form" direction="column" width="100%" onSubmit={handleSubmit}>
         <TextField
-          value={values.name}
+          value={values?.name}
           onChange={handleInputChange}
           name="name"
           label={
@@ -52,38 +60,11 @@ const BasicForm = () => {
           type="text"
           isRequired={true}
         />
-        <TextField
-          value={values.email}
-          onChange={handleInputChange}
-          name="email"
-          label={
-            <Text>
-              Email
-              <Text as="span" fontSize="0.8rem" color="red">
-                (required)
-              </Text>
-            </Text>
-          }
-          type="email"
-          isRequired={true}
-        />
-
-        <RadioGroupField
-          legend="Animal"
-          name="animal"
-          value={values.animal}
-          onChange={handleInputChange}
-        >
-          <Radio value="Dog">Dog</Radio>
-          <Radio value="Cat">Cat</Radio>
-          <Radio value="Bird">Bird</Radio>
-        </RadioGroupField>
-
         <TextAreaField
-          label="Message"
-          value={values.message}
+          label="Description"
+          value={values?.description}
           onChange={handleInputChange}
-          name="message"
+          name="description"
           rows={6}
         />
 

@@ -56,7 +56,7 @@ export const appNavs = [
     children: [
       {
         eventKey: "basic-table",
-        title: "Basic Table",
+        title: "Concept Table",
         to: "/tables",
       },
       {
@@ -79,7 +79,7 @@ export const appNavs = [
       },
       {
         eventKey: "form-wizard",
-        title: "Edit Form",
+        title: "Edit Concept",
         to: "/edit-form",
       },
     ],
