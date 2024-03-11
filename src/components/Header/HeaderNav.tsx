@@ -8,7 +8,7 @@ import { baseConfig } from "../../config";
 const HeaderNav = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuthenticator((context) => [context.user]);
-  console.log(user);
+
   return (
     <>
       {baseConfig.projectLink ? (

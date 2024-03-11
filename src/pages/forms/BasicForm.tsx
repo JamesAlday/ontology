@@ -23,7 +23,6 @@ const oneConcept = await client.graphql({
   variables: { id: "802a799c-cdbd-4c8c-8f5e-d5e9dbd27e50" }
 });
 const item = oneConcept.data.getConcept;
-console.log(item);
 
 const BasicForm = () => {
   const [values, setValues] = useState(item);

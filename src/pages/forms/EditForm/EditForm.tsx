@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Flex, useTheme } from "@aws-amplify/ui-react";
 import { useLocation,useParams,useSearchParams } from "react-router-dom";
 import FormFields from "./FormFields";
 import FormActions from "./FormActions";
-import { generateClient } from 'aws-amplify/api';
+import { del, generateClient } from 'aws-amplify/api';
 import * as queries from '../../../graphql/queries';
+import * as mutations from '../../../graphql/mutations';
 import { Amplify } from 'aws-amplify';
 import config from '../../../amplifyconfiguration.json';
 
@@ -12,46 +13,49 @@ Amplify.configure(config);
 
 const client = generateClient();
 
-
 const GetConcept = async () => {
   const { conceptId } = useParams();
-  console.log(conceptId);
-
   if (conceptId) {
     const oneConcept = await client.graphql({
       query: queries.getConcept,
       variables: { id: conceptId }
     });
-    const item = oneConcept.data.getConcept;
-    console.log(item);
-
-    return item;
+    return oneConcept.data.getConcept;
   }
+  return null;
 }
-// mock api request
-const postForm = (data) =>
-  new Promise((resolve, reject) => {
-    if (!data.title) {
-      reject(new Error("Not all information provided"));
-    }
-    setTimeout(() => resolve(data), 750);
+
+const saveForm = async (data) => {
+  const updatedData = {
+    id: data.id,
+    parents: data.parents,
+    children: data.parents,
+    name: data.name,
+    description: data.description,
+    altNames: data.altNames,
+    _version: data._version
+  };
+  const updateConcept = await client.graphql({
+    query: mutations.updateConcept,
+    variables: { input: updatedData }
+  }).then(res => {
+    console.log('Success!', res);
+  }).catch(err => {
+    console.log('Failure :( ', err);
   });
+}
 
 const EditForm = () => {
-  const [concept, setConcept] = useState<any>();
+  const [concept, setConcept] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  // const [isValid, setIsValid] = useState<boolean>(true);
+
   if (!concept) {
     GetConcept().then(res => {
       setConcept(res);
     })
   }
-  const item = concept;
-  console.log(item);
-
-  // const [values, setValues] = useState(item);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  // const [isValid, setIsValid] = useState<boolean>(false);
-
   const { tokens } = useTheme();
 
   const saveData = () => {
@@ -59,7 +63,7 @@ const EditForm = () => {
 
     const doPostForm = async (data) => {
       try {
-        const result = await postForm(data);
+        const result = await saveForm(data);
         console.log(result);
         setIsLoading(false);
       } catch (error) {
@@ -68,21 +72,19 @@ const EditForm = () => {
       }
     };
 
-    // doPostForm(values);
+    doPostForm(concept);
   };
 
   const formFieldChange = (name: string, value: string) => {
-    console.log(name);
-    console.log(value);
-    // setValues({
-    //   ...values,
-    //   [name]: value,
-    // });
+    setConcept({
+      ...concept,
+      [name]: value,
+    });
   };
 
   const formFieldIsValid = (name: string, valid: boolean) => {
+    // console.log(name, valid);
     setIsDisabled(!valid);
-    console.log(name);
   };
 
   return (
@@ -104,7 +106,7 @@ const EditForm = () => {
         >
           <br></br>
           <FormFields
-            values={item}
+            values={concept}
             formFieldChange={formFieldChange}
             formFieldIsValid={formFieldIsValid}
           />

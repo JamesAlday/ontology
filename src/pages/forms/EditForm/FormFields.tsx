@@ -6,7 +6,6 @@ import {
   TextAreaField,
   SelectField,
 } from "@aws-amplify/ui-react";
-// import * as queries from '../../../graphql/queries';
 import { Concept } from "../../../API";
 
 interface FormFieldProps {
@@ -55,7 +54,10 @@ const FormFields = (props: FormFieldProps) => {
         <TextAreaField
           label="Description"
           value={values?.description}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            handleInputChange(e);
+            validateTitle(e);
+          }}
           name="description"
           rows={6}
         />
