@@ -46,7 +46,7 @@ const ListSearchBar = (items) => {
     <div className="header-search-bar">
       <Autocomplete
         label="Autocomplete"
-        options={options ? options : [{"id":"apple","label":"apple"}]}
+        options={[{"id":"0","label":"Loading..."}]}
         placeholder="Search here..."
         size="small"
       />
