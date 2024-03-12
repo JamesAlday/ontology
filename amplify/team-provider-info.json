@@ -29,6 +29,9 @@
       "api": {
         "ontologyapi": {},
         "ontology": {}
+      },
+      "hosting": {
+        "S3AndCloudFront": {}
       }
     }
   }

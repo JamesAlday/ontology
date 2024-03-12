@@ -79,6 +79,12 @@
       "service": "Lambda"
     }
   },
+  "hosting": {
+    "S3AndCloudFront": {
+      "providerPlugin": "awscloudformation",
+      "service": "S3AndCloudFront"
+    }
+  },
   "parameters": {
     "AMPLIFY_function_ontology00b27d4f_deploymentBucketName": {
       "usedBy": [
