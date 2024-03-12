@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableCell,
@@ -7,38 +7,53 @@ import {
   TableRow,
   Button,
 } from "@aws-amplify/ui-react";
-
-// import { mockSongsData } from "../../data/mock";
-
-import { useNavigate, createSearchParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import { generateClient } from 'aws-amplify/api';
 import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
 import { Amplify } from 'aws-amplify';
 import config from '../../amplifyconfiguration.json';
 
 Amplify.configure(config);
-// const data = mockSongsData(10);
 
 const client = generateClient();
 
-// Simple query
-const res = await client.graphql({
-   query: queries.listConcepts 
+const getConcepts = await client.graphql({
+   query: queries.listConcepts,
+   variables: {
+    filter: {
+      _deleted: { ne: true }
+    }
+   }
 });
-// console.log(res); // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+
+const deleteItem = async (item) => {
+  await client.graphql({
+    query: mutations.deleteConcept,
+    variables: { input: item }
+  }).then(res => {
+    console.log('Success!', res);
+  }).catch(err => {
+    console.log('Failure', err);
+  })
+}
 
 const BasicTable = () => {
   const navigate = useNavigate();
-  const items = res.data.listConcepts.items
-  const editConcept = (item) =>
-    navigate({
-      pathname: "/edit-form",
-      search: createSearchParams({id: item.id}).toString()
-    });
+  const [items, setItems] = useState(getConcepts.data.listConcepts.items)
+
+  const deleteConcept = (id, version) => {
+    const item = {
+      id: id,
+      _version: version
+    }
+    deleteItem(item);
+    setItems(items);  
+  };
+
   return (
     <>
-      <Table caption="" highlightOnHover={false}>
+      <Table caption="" highlightOnHover={true}>
         <TableHead>
           <TableRow>
             <TableCell as="th">Title</TableCell>
@@ -59,6 +74,7 @@ const BasicTable = () => {
                 <TableCell>{item.children}</TableCell>
                 <TableCell>
                   <Button onClick={() => navigate(`/edit-form/${item.id}`)}>Edit</Button>
+                  <Button onClick={() => deleteConcept(item.id, item._version)}>Delete</Button>
                 </TableCell>
               </TableRow>
             );

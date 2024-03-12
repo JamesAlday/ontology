@@ -15,7 +15,7 @@ const Forms = () => {
         padding="1rem"
         minHeight="100vh"
       >
-        <Heading color="#333"> Basic Form </Heading>
+        <Heading color="#333"> Add Concept</Heading>
         <br></br>
         <BasicForm />
       </View>

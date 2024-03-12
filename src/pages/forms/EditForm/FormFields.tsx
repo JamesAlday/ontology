@@ -15,7 +15,7 @@ interface FormFieldProps {
 }
 
 const FormFields = (props: FormFieldProps) => {
-  const [titleHasError, setTitleHasError] = React.useState(true);
+  const [titleHasError, setTitleHasError] = React.useState(false);
   const { values, formFieldChange, formFieldIsValid } = props;
 
   const handleInputChange = (e) => {

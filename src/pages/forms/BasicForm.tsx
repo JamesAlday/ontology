@@ -8,44 +8,64 @@ import {
   RadioGroupField,
   TextAreaField,
 } from "@aws-amplify/ui-react";
-
 import { generateClient } from 'aws-amplify/api';
-import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
 import { Amplify } from 'aws-amplify';
 import config from '../../amplifyconfiguration.json';
+import { useNavigate } from "react-router-dom";
 
 Amplify.configure(config);
 
 const client = generateClient();
 
-const oneConcept = await client.graphql({
-  query: queries.getConcept,
-  variables: { id: "802a799c-cdbd-4c8c-8f5e-d5e9dbd27e50" }
-});
-const item = oneConcept.data.getConcept;
-
 const BasicForm = () => {
-  const [values, setValues] = useState(item);
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    name: "",
+    description: "",
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(e.target);
-    // setValues({
-    //   ...values,
-    //   [name]: value,
-    // });
+    console.log(name, value);
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    console.log(values);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     /// validate ...
     e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const concept = {};
+    for (const [key, value] of form.entries()) {
+      setValues({
+        ...values,
+        [key]: value,
+      });
+    }
+    concept["_version"] = 1;
+    console.log(concept);
+    const createConcept = await client.graphql({
+      query: mutations.createConcept,
+      variables: { input: values }
+    }).then(res => {
+      console.log('Success!', res);
+      navigate({
+        pathname: "/edit-form/" + res.data.createConcept.id,
+      });
+    }).catch(err => {
+      console.log('Failure', err);
+    })
   };
 
   return (
     <>
       <Flex as="form" direction="column" width="100%" onSubmit={handleSubmit}>
         <TextField
-          value={values?.name}
+          defaultValue={values.name}
           onChange={handleInputChange}
           name="name"
           label={
@@ -61,7 +81,7 @@ const BasicForm = () => {
         />
         <TextAreaField
           label="Description"
-          value={values?.description}
+          defaultValue={values.description}
           onChange={handleInputChange}
           name="description"
           rows={6}

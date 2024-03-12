@@ -74,7 +74,7 @@ export const appNavs = [
     children: [
       {
         eventKey: "form-basic",
-        title: "Basic",
+        title: "Add Concept",
         to: "/forms",
       },
       {
