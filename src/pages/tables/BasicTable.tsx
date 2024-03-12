@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Autocomplete,
   Table,
   TableCell,
   TableBody,
@@ -38,6 +39,21 @@ const deleteItem = async (item) => {
   })
 }
 
+const ListSearchBar = (items) => {
+  const options = items;
+  console.log(options.items);
+  return (
+    <div className="header-search-bar">
+      <Autocomplete
+        label="Autocomplete"
+        options={options ? options : [{"id":"apple","label":"apple"}]}
+        placeholder="Search here..."
+        size="small"
+      />
+    </div>
+  );
+};
+
 const BasicTable = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState(getConcepts.data.listConcepts.items)
@@ -53,6 +69,7 @@ const BasicTable = () => {
 
   return (
     <>
+      <ListSearchBar items={items} />
       <Table caption="" highlightOnHover={true}>
         <TableHead>
           <TableRow>
